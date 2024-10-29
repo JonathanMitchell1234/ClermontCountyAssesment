@@ -13,6 +13,7 @@
             <ul class="nav-links">
                 <li><a href="index.html">User List</a></li>
                 <li><a href="admin.html">Admin</a></li>
+                <li><button id="auth-button">Login</button></li>
             </ul>
         </div>
     </nav>
@@ -20,6 +21,10 @@
     <!-- Main Content -->
     <main>
         <h1>Admin Page</h1>
+        <!-- Add a container for the login form -->
+        <div id="login-form-container" style="display: none;"></div>
+        
+        <!-- Existing content -->
         <div id="user-list" class="user-list"></div>
         <div class="pagination">
             <button id="prev-button">Previous</button>
