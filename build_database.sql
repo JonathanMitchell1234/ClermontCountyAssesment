@@ -24,7 +24,6 @@ CREATE TABLE users (
 -- Create an index on email for faster lookup
 CREATE INDEX idx_email ON users(email);
 
--- Create stored procedures for adding and updating users
 -- Stored procedures with parameters to prevent SQL injection
 
 DELIMITER $$

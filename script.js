@@ -1,53 +1,95 @@
-document.addEventListener("DOMContentLoaded", () => {
-	let page = 1;
+// Define the page variable
+let page = 1;
+const usersPerPage = 10;
+let allUsers = [];
 
-	const userList = document.getElementById("user-list");
-	const prevButton = document.getElementById("prev-button");
-	const nextButton = document.getElementById("next-button");
+// Get references to the pagination buttons
+const prevButton = document.getElementById("prev-button");
+const nextButton = document.getElementById("next-button");
 
-	function fetchUsers() {
-		fetch(`https://randomuser.me/api/?results=10&page=${page}`)
-			.then((response) => response.json())
-			.then((data) => {
-				localStorage.setItem("users", JSON.stringify(data.results));
-				displayUsers(data.results);
-			});
-	}
+// Get reference to the user list container
+const userList = document.getElementById("user-list");
 
-	function displayUsers(users) {
-		userList.innerHTML = "";
+function fetchUsers() {
+	fetch(`http://localhost:5153/api/user`)
+		.then((response) => response.json())
+		.then((data) => {
+			console.log("API Response:", data); // Log the entire response
 
-		users.forEach((user) => {
-			const card = document.createElement("div");
-			card.className = "user-card";
-
-			card.innerHTML = `
-                <a href="user-details.html?uuid=${user.login.uuid}" class="user-link">
-                    <img src="${user.picture.thumbnail}" alt="${user.name.first} ${user.name.last}" class="user-image">
-                    <div class="user-info">
-                        <h2>${user.name.first} ${user.name.last}</h2>
-                        <p>${user.email}</p>
-                        <p>${user.phone}</p>
-                    </div>
-                </a>
-            `;
-
-			userList.appendChild(card);
+			if (Array.isArray(data) && data.length > 0) {
+				allUsers = data;
+				displayUsers();
+				updatePaginationButtons();
+			} else {
+				console.error("No users found in the response.");
+			}
+		})
+		.catch((error) => {
+			console.error("Error fetching users:", error);
 		});
+}
+
+function displayUsers() {
+	userList.innerHTML = "";
+
+	const startIndex = (page - 1) * usersPerPage;
+	const endIndex = startIndex + usersPerPage;
+	const usersToDisplay = allUsers.slice(startIndex, endIndex);
+
+	usersToDisplay.forEach((user) => {
+		const card = document.createElement("div");
+		card.className = "user-card";
+
+		card.innerHTML = `
+            <a href="user-details.html?uuid=${user.uuid}" class="user-link">
+                <img src="${user.thumbnailPicture}" alt="${user.firstName} ${user.lastName}" class="user-image">
+                <div class="user-info">
+                    <h2>${user.firstName} ${user.lastName}</h2>
+                    <p>${user.email}</p>
+                    <p>${user.phone}</p>
+                </div>
+            </a>
+        `;
+
+		userList.appendChild(card);
+	});
+}
+
+function updatePaginationButtons() {
+	if (page <= 1) {
+		prevButton.disabled = true;
+	} else {
+		prevButton.disabled = false;
 	}
 
+	const totalPages = Math.ceil(allUsers.length / usersPerPage);
+	if (page >= totalPages) {
+		nextButton.disabled = true;
+	} else {
+		nextButton.disabled = false;
+	}
+}
+
+if (prevButton) {
 	prevButton.addEventListener("click", () => {
 		if (page > 1) {
 			page--;
-			fetchUsers();
+			displayUsers();
+			updatePaginationButtons();
 		}
 	});
+}
 
+if (nextButton) {
 	nextButton.addEventListener("click", () => {
-		page++;
-		fetchUsers();
+		const totalPages = Math.ceil(allUsers.length / usersPerPage);
+		if (page < totalPages) {
+			page++;
+			displayUsers();
+			updatePaginationButtons();
+		}
 	});
+}
 
-	// Initial fetch
-	fetchUsers();
-});
+// Initial fetch
+fetchUsers();
