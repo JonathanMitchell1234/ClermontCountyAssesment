@@ -1,0 +1,222 @@
+/* Color Palette */
+:root {
+    --primary-color: #3182ce;
+    --secondary-color: #63b3ed;
+    --background-color: #f7fafc;
+    --text-color: #2d3748;
+    --light-text-color: #edf2f7;
+    --border-color: #cbd5e0;
+    --danger-color: #e53e3e;
+    --danger-hover-color: #c53030;
+}
+
+/* General Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+h1 {
+    color: var(--text-color);
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+/* Navigation Bar */
+nav {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 1rem 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+}
+
+.nav-links li {
+    margin-left: 1rem;
+}
+
+.nav-links a:hover {
+    color: var(--secondary-color);
+}
+
+/* Main Content */
+main {
+    padding: 2rem 0;
+    width: 80%;
+    margin: 0 auto;
+}
+
+/* User List */
+.user-list {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+}
+
+.user-card {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    word-wrap: break-word;
+}
+
+.user-link {
+    display: flex;
+    align-items: center;
+}
+
+.user-info {
+    margin-left: 1rem;
+    overflow: hidden;
+    word-wrap: break-word;
+}
+
+.user-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.user-actions {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.user-actions button {
+    padding: 0.5rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.edit-button {
+    background-color: var(--light-text-color);
+    color: var(--text-color);
+}
+
+.delete-button {
+    background-color: var(--danger-color);
+    color: white;
+}
+
+.edit-button:hover {
+    background-color: var(--border-color);
+}
+
+.delete-button:hover {
+    background-color: var(--danger-hover-color);
+}
+
+/* User Details */
+.user-details-card {
+    text-align: center;
+}
+
+.user-details-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+}
+
+/* Buttons */
+button {
+    padding: 0.5rem 1rem;
+    border: none;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+button:hover {
+    background-color: var(--secondary-color);
+}
+
+button:disabled {
+    background-color: gray;
+    cursor: not-allowed;
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.pagination button {
+    margin: 0 0.5rem;
+}
+
+/* Forms */
+.edit-form-container {
+    margin-top: 2rem;
+}
+
+.edit-form-container h2 {
+    margin-bottom: 1rem;
+}
+
+#edit-form {
+    display: flex;
+    flex-direction: column;
+}
+
+#edit-form label {
+    margin-top: 0.5rem;
+}
+
+#edit-form input {
+    padding: 0.5rem;
+    margin-top: 0.25rem;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+}
+
+#edit-form button {
+    margin-top: 1rem;
+}
+
+#cancel-button {
+    margin-left: 0.5rem;
+    background-color: var(--light-text-color);
+    color: var(--text-color);
+}
+
+#cancel-button:hover {
+    background-color: var(--border-color);
+}
