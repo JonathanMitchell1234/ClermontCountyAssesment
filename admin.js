@@ -10,7 +10,6 @@ document.addEventListener("DOMContentLoaded", () => {
 	const nextButton = document.getElementById("next-button");
 	const pagination = document.querySelector(".pagination");
 	const editFormContainer = document.getElementById("edit-form-container");
-	
 
 	let page = 1;
 	const usersPerPage = 10;
@@ -175,23 +174,23 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 
 	// Display users on the page
-function displayUsers() {
-	userList.innerHTML = "";
+	function displayUsers() {
+		userList.innerHTML = "";
 
-	const startIndex = (page - 1) * usersPerPage;
-	const endIndex = startIndex + usersPerPage;
-	const usersToDisplay = allUsers.slice(startIndex, endIndex);
+		const startIndex = (page - 1) * usersPerPage;
+		const endIndex = startIndex + usersPerPage;
+		const usersToDisplay = allUsers.slice(startIndex, endIndex);
 
-	if (usersToDisplay.length === 0) {
-		userList.innerHTML = "<p>No users to display.</p>";
-		return;
-	}
+		if (usersToDisplay.length === 0) {
+			userList.innerHTML = "<p>No users to display.</p>";
+			return;
+		}
 
-	usersToDisplay.forEach((user) => {
-		const card = document.createElement("div");
-		card.className = "user-card";
+		usersToDisplay.forEach((user) => {
+			const card = document.createElement("div");
+			card.className = "user-card";
 
-		card.innerHTML = `
+			card.innerHTML = `
             <a href="user-details.html?uuid=${user.uuid}" class="user-link">
                 <img src="${user.thumbnailPicture}" alt="${user.firstName} ${user.lastName}" class="user-image">
                 <div class="user-info">
@@ -202,14 +201,15 @@ function displayUsers() {
             </a>
             <div class="user-actions">
                 <button class="edit-button" data-uuid="${user.uuid}">Edit</button>
+                <button class="delete-button" data-uuid="${user.uuid}">Delete</button>
             </div>
         `;
 
-		userList.appendChild(card);
-	});
+			userList.appendChild(card);
+		});
 
-	// Add event listeners to the edit buttons
-        document.querySelectorAll(".edit-button").forEach((button) => {
+		// Add event listeners to the edit buttons
+		document.querySelectorAll(".edit-button").forEach((button) => {
 			button.addEventListener("click", async () => {
 				const uuid = button.getAttribute("data-uuid");
 				const user = allUsers.find((u) => u.uuid === uuid);
@@ -220,8 +220,51 @@ function displayUsers() {
 				}
 			});
 		});
-}
 
+		// Add event listeners to the delete buttons
+		document.querySelectorAll(".delete-button").forEach((button) => {
+			button.addEventListener("click", async () => {
+				const uuid = button.getAttribute("data-uuid");
+				// Confirm with the user
+				if (confirm("Are you sure you want to delete this user?")) {
+					try {
+						await deleteUser(uuid);
+						// Refresh the user list
+						fetchUsers();
+					} catch (error) {
+						alert("Error deleting user: " + error.message);
+					}
+				}
+			});
+		});
+	}
+
+	async function deleteUser(uuid) {
+		try {
+			const response = await fetch(`http://localhost:5153/api/user/${uuid}`, {
+				method: "DELETE",
+				headers: {
+					"Content-Type": "application/json",
+					// Include authorization headers if needed
+				},
+			});
+
+			if (!response.ok) {
+				const errorData = await response.json();
+				throw new Error(errorData.message || "Failed to delete user.");
+			}
+
+			if (response.status === 204) {
+				console.log("User deleted successfully.");
+			} else {
+				const data = await response.json();
+				console.log("User deleted:", data);
+			}
+		} catch (error) {
+			console.error("Error deleting user:", error);
+			throw error;
+		}
+	}
 
 	// Display the edit form
 	function displayEditForm(user) {
