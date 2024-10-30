@@ -1,5 +1,3 @@
-// admin.js
-
 document.addEventListener("DOMContentLoaded", () => {
 	// Check login state on page load
 	let isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
