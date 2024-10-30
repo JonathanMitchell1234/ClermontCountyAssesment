@@ -1,0 +1,32 @@
+# Use the official ASP.NET Core runtime as a base image
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+WORKDIR /app
+
+# Build the application
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+
+# Copy the entire project
+COPY . .
+
+# Navigate to the project directory
+WORKDIR "/src/BackendService"
+
+# Restore dependencies
+RUN dotnet restore "BackendService.csproj"
+
+# Publish the application
+RUN dotnet publish "BackendService.csproj" -c Release -o /app/publish
+
+# Build the final image
+FROM base AS final
+WORKDIR /app
+COPY --from=build /app/publish .
+
+# Expose port 5153
+EXPOSE 5153
+
+# Set the application to listen on port 5153
+ENV ASPNETCORE_URLS=http://+:5153
+
+ENTRYPOINT ["dotnet", "BackendService.dll"19256

@@ -1,0 +1,60 @@
+@BackendService_HostAddress = http://localhost:5153
+
+### Get all users
+GET {{BackendService_HostAddress}}/api/user
+Accept: application/json
+
+###
+
+### Get a user by UUID
+GET {{BackendService_HostAddress}}/api/user/{{uuid}}
+Accept: application/json
+
+###
+
+### Create a new user
+POST {{BackendService_HostAddress}}/api/user
+Content-Type: application/json
+
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john.doe@example.com",
+  "phone": "123-456-7890",
+  "thumbnailPicture": "http://example.com/thumbnail.jpg",
+  "largePicture": "http://example.com/large.jpg",
+  "streetNumber": "123",
+  "streetName": "Main St",
+  "city": "Anytown",
+  "state": "Anystate",
+  "country": "Anycountry",
+  "postcode": "12345"
+}
+
+###
+
+### Update an existing user
+PUT {{BackendService_HostAddress}}/api/user/{{uuid}}
+Content-Type: application/json
+
+{
+  "uuid": "{{uuid}}",
+  "firstName": "Jane",
+  "lastName": "Doe",
+  "email": "jane.doe@example.com",
+  "phone": "987-654-3210",
+  "thumbnailPicture": "http://example.com/thumbnail.jpg",
+  "largePicture": "http://example.com/large.jpg",
+  "streetNumber": "456",
+  "streetName": "Second St",
+  "city": "Othertown",
+  "state": "Otherstate",
+  "country": "Othercountry",
+  "postcode": "67890"
+}
+
+###
+
+### Delete a user by UUID
+DELETE {{BackendService_HostAddress}}/api/user/{{uuid}}
+Accept: application/json
