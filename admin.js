@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	const nextButton = document.getElementById("next-button");
 	const pagination = document.querySelector(".pagination");
 	const editFormContainer = document.getElementById("edit-form-container");
+	
 
 	let page = 1;
 	const usersPerPage = 10;
@@ -210,17 +211,17 @@ function displayUsers() {
 	});
 
 	// Add event listeners to the edit buttons
-	document.querySelectorAll(".edit-button").forEach((button) => {
-		button.addEventListener("click", (event) => {
-			const uuid = event.target.getAttribute("data-uuid");
-			const user = allUsers.find((user) => user.uuid === uuid);
-			if (user) {
-				displayEditForm(user);
-			} else {
-				alert("User not found.");
-			}
+        document.querySelectorAll(".edit-button").forEach((button) => {
+			button.addEventListener("click", async () => {
+				const uuid = button.getAttribute("data-uuid");
+				const user = allUsers.find((u) => u.uuid === uuid);
+				if (user) {
+					displayEditForm(user);
+					// Smooth scroll to the edit form
+					editFormContainer.scrollIntoView({ behavior: "smooth" });
+				}
+			});
 		});
-	});
 }
 
 
