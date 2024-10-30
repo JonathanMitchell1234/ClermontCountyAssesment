@@ -1,6 +1,7 @@
 # User Management Application
 
-  
+  ![appgif](https://github.com/user-attachments/assets/55adfce6-6912-40b5-be16-c6831d6a7974)
+
 
 ## Prerequisites
 
