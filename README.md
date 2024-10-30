@@ -12,7 +12,7 @@
 
  ## Clone the Repository
 
-    git clone https://github.com/JonathanMitchell1234/ClermontCountyAssesment.git
+    git clone https://github.com/JonathanMitchell1234/ClermontCountyAssessment.git
 
 ## Setup Database
 
